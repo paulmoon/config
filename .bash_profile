@@ -9,11 +9,6 @@ alias ll='ls -laGp'
 export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
 export PATH="${JAVA_HOME}:${PATH}"
 
-export M2_HOME='/usr/local/apache-maven/apache-maven-3.2.3'
-export M2="$M2_HOME/bin"
-export PATH="$M2:$PATH"
-
-export JREBEL_HOME=/Users/moonpaul/tools/jrebel
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
@@ -58,7 +53,3 @@ dirsize () {
     egrep '^ *[0-9.]*G' /tmp/list
     rm -rf /tmp/list
 }
-
-
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/Users/moonpaul/.gvm/bin/gvm-init.sh" ]] && source "/Users/moonpaul/.gvm/bin/gvm-init.sh"
