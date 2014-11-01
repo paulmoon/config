@@ -1,3 +1,6 @@
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on"
+
 # Aliases
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -53,3 +56,4 @@ dirsize () {
     egrep '^ *[0-9.]*G' /tmp/list
     rm -rf /tmp/list
 }
+
