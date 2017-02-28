@@ -73,6 +73,11 @@ filetype plugin indent on
 
 " Quick-saving with Ctrl-S
 :nnoremap <C-S> :w<cr>
+ 
+" Solorized dark
+" syntax enable
+" set background=dark
+" colorscheme solarized
 
 " Pretty Vim Wiki
 let vimwiki_path='$HOME/vimwiki/'

@@ -9,8 +9,9 @@ alias .....='cd ../../../..'
 alias grep='grep --color=auto'
 alias ll='ls -laGp'
 
-export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
-export PATH="${JAVA_HOME}:${PATH}"
+# Git aliases
+alias gs='git status '
+alias gd='git diff '
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
@@ -57,3 +58,10 @@ dirsize () {
     rm -rf /tmp/list
 }
 
+cl () {
+  cd $1;
+  ll;
+}
+
+# Disable Ctrl-S so it can be used for vim saving files
+stty -ixon
