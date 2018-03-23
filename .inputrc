@@ -1,0 +1,25 @@
+# To see all the current bindings: bind -P
+# To reload: bind -f  ~/.inputrc
+
+set editing-mode vi
+
+set vi-ins-mode-string "+"
+set vi-cmd-mode-string ":"
+
+# Ignore case
+set completion-ignore-case on
+set show-mode-in-prompt on
+
+set keymap vi-command
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-p": previous-history
+"\C-n": next-history
+
+set keymap vi-insert
+# remap escape 
+"jk": vi-movement-mode 
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-p": previous-history
+"\C-n": next-history
