@@ -1,14 +1,16 @@
 # To see all the current bindings: bind -P
 # To reload: bind -f  ~/.inputrc
+# To see the character sequence that terminal sends, type cat then key.
 
 set editing-mode vi
 
-set vi-ins-mode-string "+"
-set vi-cmd-mode-string ":"
+# ANSI colors
+set show-mode-in-prompt on
+set vi-ins-mode-string "\1\e[1;32m\2INS\1\e[0m\2 "
+set vi-cmd-mode-string "\1\e[1;33m\2COM\1\e[0m\2 "
 
 # Ignore case
 set completion-ignore-case on
-set show-mode-in-prompt on
 
 set keymap vi-command
 "\C-a": beginning-of-line
@@ -17,9 +19,14 @@ set keymap vi-command
 "\C-n": next-history
 
 set keymap vi-insert
-# remap escape 
+# Remap escape
 "jk": vi-movement-mode 
 "\C-a": beginning-of-line
 "\C-e": end-of-line
 "\C-p": previous-history
 "\C-n": next-history
+"\ef": forward-word
+"\eb": backward-word
+"\C-w": backward-kill-word
+"\C-k": kill-line
+"\C-l": clear-screen
