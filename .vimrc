@@ -1,11 +1,29 @@
 " Enable modern Vim features not compatible with Vi spec.
 set nocompatible
+filetype off
 
-" Enable syntax highlighting
 syntax on
 
-" Pathogen: Manage 'runtimepath' with ease.
-execute pathogen#infect()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'honza/vim-snippets'
+Plugin 'morhetz/gruvbox'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vimwiki/vimwiki'
+
+:let mapleader = "\\"
+
+:nnoremap <leader>pi :PluginInstall<CR>
 
 " Highlight search matches as you type
 set incsearch
@@ -16,6 +34,28 @@ set smartcase
 " Highlight searches (use <C-L> to temporarily turn off highlighting; see the
 " mapping of <C-L> below)
 set hlsearch
+
+set autoread
+
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
+if !&scrolloff
+  set scrolloff=1
+endif
+if !&sidescrolloff
+  set sidescrolloff=5
+endif
+
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+endif
+
+if v:version > 703 || v:version == 703 && has("patch541")
+  set formatoptions+=j " Delete comment character when joining commented lines
+endif
 
 " Better command-line completion
 set wildmenu
@@ -44,9 +84,10 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set autoindent
+set tw=100
 
-set cul
-hi CursorLine term=none cterm=none ctermbg=238
+" Quick exit
+:inoremap jk <ESC>
 
 " Switching panes made easier
 map <C-j> <C-W>j
@@ -57,7 +98,7 @@ map <C-l> <C-W>l
 " Copy and paste selection into system clipboard
 :vnoremap <F5> "+y
 :vnoremap <F6> "+p
-" Pathogen plug-ins specific shortcuts
+" Plug-ins specific shortcuts
 nmap <F8> :TagbarToggle<CR>
 
 " Enter to insert a new line in Normal mode
@@ -66,18 +107,22 @@ nmap <F8> :TagbarToggle<CR>
 " Set spacebar to insert a space in normal mode
 :nnoremap <space> i<space><esc>
 
-" Quick exit
-:inoremap jk <ESC>
-
 filetype plugin indent on
 
 " Quick-saving with Ctrl-S
 :nnoremap <C-S> :w<cr>
+
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>eb :vsplit ~/.bashrc<cr>
+:nnoremap <leader>d "_d
  
 " Solorized dark
-" syntax enable
-" set background=dark
-" colorscheme solarized
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_termcolors=256
+let g:gruvbox_contrast_dark="medium"
+set t_Co=256
 
 " Pretty Vim Wiki
 let vimwiki_path='$HOME/vimwiki/'
@@ -94,7 +139,8 @@ let wiki_settings={
 
 " Vim Wiki
 let wikis=["index"]
-let g:vimwiki_list = []
+let g:vimwiki_list = [{'path': '~/vimwiki/index/',
+      \ 'syntax': 'markdown', 'ext': '.md'}]
 for wiki_name in wikis
   let wiki=copy(wiki_settings)
   let wiki.path = vimwiki_path.wiki_name.'/'
@@ -104,3 +150,4 @@ for wiki_name in wikis
   call add(g:vimwiki_list, wiki)
 endfor
 
+call vundle#end()
