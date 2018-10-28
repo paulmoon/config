@@ -19,6 +19,7 @@ alias vimr="vim -R "
 alias findn='find . -name '"${1}"''
 alias _sb="source ~/.bashrc"
 alias _eb="vim ~/.bashrc"
+alias _et="vim ~/.tmux.conf"
 alias htopc="htop --sort-key=PERCENT_CPU"
 alias htopm="htop --sort-key=PERCENT_MEM"
 
@@ -27,6 +28,9 @@ alias gs='git status'
 alias gd='git diff'
 alias gl='git log'
 alias gall='git add .'
+function gc() {
+  git commit -m "$*"
+}
 
 # ============== Functions ==============
 
@@ -85,11 +89,6 @@ _mkd() {
 }
 
 # ============== Exports ==============
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
-
-export PATH="${JAVA_HOME}:${PATH}"
-export PATH="$HOME/Library/Haskell/bin:${PATH}"
-# export PATH="/usr/local:${PATH}"
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
