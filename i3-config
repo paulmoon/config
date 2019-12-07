@@ -38,7 +38,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec rofi -show run -font "System San Francisco Display 18" -theme solarized -sort
+bindsym $mod+d exec rofi -show run -font "System San Francisco Display 14" -theme solarized -sort
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -175,7 +175,18 @@ bar {
 focus_follows_mouse no
 
 # Use xprop for figuring out the class
+assign [class="Google-chrome"] 1
+# assign [class="Keepassx"] 2
+# assign [class="Sublime_text"] 4
+
 for_window [class="Google-chrome"] border none
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="Gnome-terminal"] border none
+for_window [class="Sublime_text"] border none
+for_window [class="Signal"] floating enable
+for_window [class="jetbrains-pycharm-ce"] border none
+for_window [class="Brave-browser"] border none
+
 
 set $BG_PICTURE ~/Pictures/Background/X3ihaGi.jpg
 exec_always --no-startup-id feh --bg-scale $BG_PICTURE
@@ -188,25 +199,28 @@ exec --no-startup-id parcellite
 exec google-chrome
 exec subl
 exec flameshot
+exec redshift
+exec keepassxc
 
 # Colors
-
-
-
 
 # Use xev to figure out name of the keypress
 bindsym $mod+n exec nemo
 bindsym Ctrl+$ALT+Prior exec pkill -USR1 '^redshift$'
 bindsym $mod+apostrophe exec gnome-calculator
 bindsym $mod+c exec google-chrome
+bindsym $mod+b exec brave-browser
+
+bindsym Ctrl+$ALT+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 bindsym Ctrl+$ALT+v exec ~/snippy.sh
+bindsym Ctrl+$ALT+End exec systemctl suspend
 bindsym --release Print exec --no-startup-id "flameshot full -p ~/Pictures/"
 # How to sleep the computer? bindsym Ctrl+Shift+$ALT+Prior exec Print exec --no-startup-id "flameshot full -p ~/Pictures/"
 bindsym --release Ctrl+Shift+Print exec --no-startup-id "flameshot gui -d 1000 -p ~/Pictures/"
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 1 toggle # mute sound
 
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioNext exec playerctl next
@@ -214,3 +228,22 @@ bindsym XF86AudioPlay exec playerctl play
 bindsym XF86AudioPause exec playerctl pause
 
 exec_always xrandr --dpi 120
+
+set $Locker i3lock -c 943866 -e -f && sleep 1
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+    bindsym l exec --no-startup-id $Locker, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+Pause mode "$mode_system"
+

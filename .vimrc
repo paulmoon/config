@@ -1,17 +1,14 @@
 " Enable modern Vim features not compatible with Vi spec.
 set nocompatible
-
 filetype off
-syntax on
 
-" -------------------- PLUGINS --------------------
+syntax on
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'Chiel92/vim-autoformat'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'honza/vim-snippets'
@@ -28,8 +25,6 @@ Plugin 'vimwiki/vimwiki'
 
 :nnoremap <leader>pi :PluginInstall<CR>
 
-" -------------------- VIM BEHAVIOR --------------------
-
 " Highlight search matches as you type
 set incsearch
 " Make searches insensitive EXCEPT when there's at least one uppercase character
@@ -40,11 +35,13 @@ set smartcase
 " mapping of <C-L> below)
 set hlsearch
 
-" When a file has been detected to have been changed outside of Vim and it has not been changed
-" inside of Vim, automatically read it again.
 set autoread
 
-" Minimal number of screen lines to keep above and below the cursor.
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
+endif
+
 if !&scrolloff
   set scrolloff=1
 endif
@@ -52,7 +49,6 @@ if !&sidescrolloff
   set sidescrolloff=5
 endif
 
-" Strings to use in :list command
 if &listchars ==# 'eol:$'
   set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
@@ -83,28 +79,15 @@ set mouse=a
 " Display line numbers on the left
 set number
 
-" Number of spaces that a <Tab> in the file counts for.
 set tabstop=2
-" Number of spaces to use for each step of (auto)indent.  Used for |'cindent'|, |>>|, |<<|, etc.
 set shiftwidth=2
-" Number of spaces that a <Tab> counts for while performing editing operations, like inserting a
-" <Tab> or using <BS>.
 set softtabstop=2
-" In Insert mode: Use the appropriate number of spaces to insert a tab
 set expandtab
-" Copy indent from current line when starting a new line.
 set autoindent
-set textwidth=100
-
-if has('persistent_undo')
-  set undofile
-  set undodir=$HOME/.vim/undo
-endif
-
-" -------------------- KEY MAPS --------------------
+set tw=100
 
 " Quick exit
-inoremap jk <ESC>
+:inoremap jk <ESC>
 
 " Switching panes made easier
 map <C-j> <C-W>j
@@ -113,36 +96,45 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Copy and paste selection into system clipboard
-vnoremap <F5> "+y
-vnoremap <F6> "+p
+:vnoremap <F5> "+y
+:vnoremap <F6> "+p
+" Plug-ins specific shortcuts
+nmap <F8> :TagbarToggle<CR>
 
 " Enter to insert a new line in Normal mode
 :nnoremap <Enter> O<Esc>
 
 " Set spacebar to insert a space in normal mode
-nnoremap <space> i<space><esc>
+:nnoremap <space> i<space><esc>
 
 filetype plugin indent on
 
 " Quick-saving with Ctrl-S
-nnoremap <C-S> :w<CR>
+:nnoremap <C-S> :w<cr>
 
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <leader>eb :vsplit ~/.bashrc<cr>
-nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
-nnoremap <leader>d "_d
-nnoremap <leader>D "_D
-nnoremap <leader>c "_c
-nnoremap <leader>C "_C
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>eb :vsplit ~/.bashrc<cr>
+:nnoremap <leader>d "_d
+ 
+map <ESC>[1;5D <C-Left>
+map <ESC>[1;5A <C-Up>
+map <ESC>[1;5C <C-Right>
+map <ESC>[1;5B <C-Down>
 
-" Select text under visual selection
-vnoremap // y/\V<C-r>=escape(@",'/\')<CR><CR>
+" Solorized dark
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_termcolors=256
+let g:gruvbox_contrast_dark="medium"
+set t_Co=256
 
-" Use <C-L> to clear the highlighting of :set hlsearch.
-if maparg('<C-L>', 'n') ==# ''
-   nnoremap <silent> <C-L> :nohlsearch<C-R>=has('diff')?'<Bar>diffupdate':''<CR><CR><C-L>
-endif
+set undofile
+" set a directory to store the undo history
+set undodir=~/.vimundo/
+
+" NERDTree
+let g:NERDTreeWinSize=50
 
 " Pretty Vim Wiki
 let vimwiki_path='$HOME/vimwiki/'
@@ -169,12 +161,5 @@ for wiki_name in wikis
   let wiki.diary_rel_path = 'diary/'
   call add(g:vimwiki_list, wiki)
 endfor
-
-" -------------------- LOOK AND FEEL --------------------
-set background=dark
-colorscheme gruvbox
-let g:gruvbox_termcolors=256
-let g:gruvbox_contrast_dark="medium"
-set t_Co=256
 
 call vundle#end()

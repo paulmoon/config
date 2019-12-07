@@ -8,7 +8,7 @@ alias .....='cl ../../../..'
 # -a = list entries starting with . (hidden)
 # -G = colors
 # -h = human readable 
-alias l='ls -lAGh'
+alias l='ls -lAGh --color=auto'
 
 alias grep='grep --color=auto'
 alias cp='cp -i'
@@ -20,14 +20,19 @@ alias findn='find . -name '"${1}"''
 alias _sb="source ~/.bashrc"
 alias _eb="vim ~/.bashrc"
 alias _et="vim ~/.tmux.conf"
+alias _ei="vim ~/.config/i3/config"
 alias htopc="htop --sort-key=PERCENT_CPU"
 alias htopm="htop --sort-key=PERCENT_MEM"
+
+alias sagi="sudo apt-get install -y "
+alias sagr="sudo apt-get remove -y "
 
 ## Git aliases
 alias gs='git status'
 alias gd='git diff'
 alias gl='git log'
 alias gall='git add .'
+
 function gc() {
   git commit -m "$*"
 }
@@ -88,7 +93,16 @@ _mkd() {
   [[ "$1" ]] && mkdir -p "$1" && cd "$1";
 }
 
+sinsert() {
+  echo $1 >> ~/.snippy/$2
+  echo "Inserted ${1} into ~/.snippy/${2}"
+}
+
 # ============== Exports ==============
+export PATH="~/.local/bin:${PATH}"
+export PATH="~/bin:${PATH}"
+# export PATH="$HOME/Library/Haskell/bin:${PATH}"
+# export PATH="/usr/local:${PATH}"
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -119,8 +133,19 @@ function set_bash_prompt () {
   PS1="${PS1}$PURPLE \$ "
   # Reset colors
   PS1="${PS1}$COLOR_NONE"
+  history -a
+  history -c
+  history -r 
 }
 export PROMPT_COMMAND=set_bash_prompt
+
+# If fzf is installed
+cld() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
 
 # Disable START/STOP output control which allows CTRL-S to work in Vim.
 stty -ixon
