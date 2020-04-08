@@ -26,6 +26,8 @@ alias htopm="htop --sort-key=PERCENT_MEM"
 
 alias sagi="sudo apt-get install -y "
 alias sagr="sudo apt-get remove -y "
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
 
 ## Git aliases
 alias gs='git status'
@@ -162,3 +164,4 @@ export HISTTIMEFORMAT='%Y/%m/%d %T '
 # When the shell exits, append to the history file instead of overwriting it
 shopt -s histappend
 
+eval `dircolors ~/.dir_colors/dircolors.ansi-dark`
